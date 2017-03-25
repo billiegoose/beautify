@@ -4,8 +4,12 @@ import standard from 'standard'
 import postcss from 'postcss'
 import stylefmt from 'stylefmt'
 const api = require('./asyncPostHTML')
+import render from './render'
 
 const options = {
+  posthtml: {
+    render: render
+  },
   standard: {
     fix: true
   },
@@ -72,10 +76,10 @@ async function scriptTags (tree) {
   ], async node => {
     let origContent = node.content.join('')
     let newContent = await beautifyScript(origContent)
-    console.log('===========================')
-    console.log(origContent)
-    console.log('---------------------------')
-    console.log(newContent)
+    // console.log('===========================')
+    // console.log(origContent)
+    // console.log('---------------------------')
+    // console.log(newContent)
     node.content = ['\n' + newContent]
     return node
   })
@@ -89,10 +93,10 @@ async function styleTags (tree) {
   ], async node => {
     let origContent = node.content.join('')
     let newContent = await beautifyStyle(origContent)
-    console.log('===========================')
-    console.log(origContent)
-    console.log('---------------------------')
-    console.log(newContent)
+    // console.log('===========================')
+    // console.log(origContent)
+    // console.log('---------------------------')
+    // console.log(newContent)
     node.content = ['\n' + newContent]
     return node
   })
@@ -105,10 +109,6 @@ async function styleAttributes (tree) {
     let origStyle = node.attrs.style
     let newStyle = beautifyStyleAttribute(origStyle)
     node.attrs.style = newStyle
-    console.log('===========================')
-    console.log(origStyle)
-    console.log('---------------------------')
-    console.log(newStyle)
     return node
   })
 }
@@ -118,6 +118,6 @@ function asyncifyTree (tree) {
 }
 
 export default async function Process (input) {
-  let result = await posthtml([asyncifyTree, scriptTags, styleTags, styleAttributes]).process(input)
+  let result = await posthtml([asyncifyTree, scriptTags, styleTags, styleAttributes]).process(input, options.posthtml)
   return result.html
 }
