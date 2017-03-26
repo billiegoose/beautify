@@ -6,7 +6,7 @@ import attributeOrder from './preferred-attribute-order'
 // indexOf is higher is prefered.
 attributeOrder.reverse() // mutates array
 /*::
-import type { tree, node } from './render'
+import type { tree, node } from './ast'
 */
 
 function compareAttributes (a /*: string */, b /*: string */) /*: number */{

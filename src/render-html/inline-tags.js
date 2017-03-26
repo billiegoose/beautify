@@ -1,12 +1,5 @@
 'use strict'
-// This is actually a little different from inline elements.
-// E.g. I want 'title' in. I want 'script' out. I want 'br' out. etc
 module.exports = [
-  // <head> elements
-  'title',
-  'base',
-  'link',
-  'meta',
   // inline <body> elements
   'a',
   'abbr',

@@ -7,6 +7,7 @@
     "beautify": "dist/bin/cli.js"
   },
   "scripts": {
+    "testing": "ava --watch",
     "watch": "babel src --out-dir dist --watch",
     "build": "babel src --out-dir dist",
     "lint": "standard --fix",
@@ -47,6 +48,7 @@
     "void-elements": "^3.1.0"
   },
   "devDependencies": {
+    "ava": "^0.18.2",
     "babel-cli": "^6.24.0",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",

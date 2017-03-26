@@ -4,7 +4,7 @@ import standard from 'standard'
 import postcss from 'postcss'
 import stylefmt from 'stylefmt'
 const api = require('./asyncPostHTML')
-import render from './render'
+import render from './render-html'
 
 const options = {
   posthtml: {
