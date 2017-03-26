@@ -15,7 +15,6 @@ import {tree, node} from './ast'
 */
 
 function indentBlock (text, {depth, indentString}) {
-  console.log('depth, indentString =', depth, indentString)
   let indent = indentString.repeat(depth)
   let finalNewline = text.endsWith('\n')
   // if the block ends with a newline, remove it
@@ -59,15 +58,12 @@ function renderBlock (node/*: node */, opts) /*: string */{
   if (node.meta.isVoid) {
     return renderVoidTag(node, opts) + '\n'
   }
-  console.log('opts =', opts)
   let newopts = Object.assign({}, opts)
   newopts.depth += 1
   let text = renderTree(node.content, opts)
   if (text.includes('\n')) {
-    console.log('very important tag = ', node.tag)
     return renderOpenTag(node, opts) + '\n' + indentBlock(text, newopts) + renderCloseTag(node, opts) + '\n'
   } else {
-    console.log('text =', text)
     return renderOpenTag(node, opts) + text + renderCloseTag(node, opts) + '\n'
   }
 }
@@ -77,7 +73,6 @@ function renderGroup (node/*: node */, opts) /*: string */{
 }
 
 function renderNode (node/*: node */, opts) /*: string */{
-  console.log('node.tag =', node.tag)
   // Text nodes render as themselves for the most part.
   if (node.meta.isText) return renderTextNode(node, opts)
   // Handle group of inline elements
@@ -88,7 +83,6 @@ function renderNode (node/*: node */, opts) /*: string */{
   if (node.meta.isInline) {
     return renderLine(node, opts)
   } else {
-    console.log(node.tag)
     return renderBlock(node, opts)
   }
 }
@@ -158,6 +152,9 @@ function segment (thing/*: node | tree */, opts) /*: node | tree */ {
 export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText */, opts = {}) /*: string */ {
   opts.indentString = opts.indentString || '  '
   opts.depth = opts.depth || 0
+  console.log('\n\n')
+  console.log('------ parse(thing) --------')
+  console.log(JSON.stringify(thing, null, 2))
   // Recursively normalize the shit out of this thing.
   thing = AST.norm(thing)
   console.log('------ AST.norm(thing) --------')
@@ -165,7 +162,6 @@ export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText 
   thing = segment(thing)
   console.log('------ segment(thing) --------')
   console.log(JSON.stringify(thing, null, 2))
-  console.log('render got called')
   if (Array.isArray(thing)) {
     return renderTree(thing, opts)
   }

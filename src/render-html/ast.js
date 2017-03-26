@@ -18,13 +18,13 @@ export type tree = Array<node>
 export type node = {
   tag?: string,
   attrs: {[id:string]: string},
-  content: tree,
   meta: {
     isText: boolean,
     isBlock: boolean,
     isInline: boolean,
     isVoid: boolean
-  }
+  },
+  content: tree
 }
 */
 
@@ -55,13 +55,11 @@ function doctypeNode (node) {
   return {
     tag: node,
     attrs: {},
-    content: [],
     meta: {
-      isVoid: true,
-      isText: false,
-      isInline: false,
-      isBlock: true
-    }
+      isBlock: true,
+      isVoid: true
+    },
+    content: []
   }
 }
 
@@ -69,13 +67,14 @@ function textNode (node) {
   if (node.startsWith('<!DOCTYPE')) {
     return doctypeNode(node)
   }
-  return {
-    content: [node],
+  let result = {
     meta: {
-      isText: true,
-      isMultiline: node.includes('\n')
-    }
+      isText: true
+    },
+    content: [node]
   }
+  if (node.includes('\n')) result.meta.isMultiline = true
+  return result
 }
 
 function normalizeNode (node/*: PostHTMLNode | PostHTMLText */) /*: node */{
@@ -85,11 +84,12 @@ function normalizeNode (node/*: PostHTMLNode | PostHTMLText */) /*: node */{
   }
   result.tag = node.tag.toLowerCase()
   result.attrs = normalizeAttrs(node.attrs)
-  result.content = normalizeTree(node.content)
   result.meta = {}
-  result.meta.isInline = inlineTags.includes(result.tag)
-  result.meta.isBlock = blockTags.includes(result.tag)
-  result.meta.isVoid = voidTags.includes(result.tag)
+  // This is done intentionally to keep the JSONified representation more readable
+  if (inlineTags.includes(result.tag)) result.meta.isInline = true
+  if (blockTags.includes(result.tag)) result.meta.isBlock = true
+  if (voidTags.includes(result.tag)) result.meta.isVoid = true
+  result.content = normalizeTree(node.content)
   return result
 }
 
