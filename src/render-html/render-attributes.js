@@ -17,6 +17,5 @@ function compareAttributes (a /*: string */, b /*: string */) /*: number */{
 export default function renderAttributes (node/*: node */, opts) /*: string[] */{
   let keys = Object.keys(node.attrs)
   keys.sort(compareAttributes)
-  console.log(keys)
   return keys.map(key => `${key}="${node.attrs[key]}"`)
 }
