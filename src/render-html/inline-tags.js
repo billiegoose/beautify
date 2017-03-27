@@ -7,7 +7,7 @@ module.exports = [
   'b',
   'bdo',
   'big',
-  'br',
+  // 'br',
   'button',
   'cite',
   'code',

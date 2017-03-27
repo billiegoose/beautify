@@ -1,4 +1,3 @@
-
 import blockTags from 'block-elements'
 import inlineTags from './inline-tags'
 import voidTags from './void-tags'

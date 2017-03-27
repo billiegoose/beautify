@@ -3,7 +3,7 @@ import prettier from 'prettier'
 import standard from 'standard'
 import postcss from 'postcss'
 import stylefmt from 'stylefmt'
-const api = require('./asyncPostHTML')
+const api = require('./api-async')
 import render from './render-html'
 
 const options = {
