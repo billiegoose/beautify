@@ -2,7 +2,6 @@
 'use strict'
 import assert from 'assert'
 // TODO
-// import whitespacePreservingElements from './whitespace-preserving-elements'
 import AST from './ast'
 import renderAttributes from './render-attributes'
 import groupInline from './group-inline-nodes'
@@ -17,6 +16,8 @@ import {tree, node} from './ast'
 */
 
 function indentBlock (text, {depth, indentString}) {
+  assert(typeof depth === 'number')
+  assert(typeof indentString === 'string')
   let indent = indentString.repeat(depth)
   let finalNewline = text.endsWith('\n')
   // if the block ends with a newline, remove it
@@ -34,30 +35,36 @@ function indentBlock (text, {depth, indentString}) {
 
 // accepts a normalized node
 function renderOpenTag (node/*: node */, opts) /*: string */{
+  assert(opts)
   return '<' + [node.tag, ...renderAttributes(node, opts)].join(' ') + '>'
 }
 
 // accepts a normalized node
 function renderCloseTag (node/*: node */, opts) /*: string */{
+  assert(opts)
   return '</' + node.tag + '>'
 }
 
 function renderVoidTag (node/*: node */, opts) /*: string */{
+  assert(opts)
   // TODO: add option for XML tag endings
   return '<' + [node.tag, ...renderAttributes(node, opts)].join(' ') + '>'
 }
 
 function renderTextNode (node/*: node */, opts) /*: string */{
+  assert(opts)
   assert(node.content.length === 1)
   return node.content[0]
 }
 
 function renderLine (node/*: node */, opts) /*: string */{
+  assert(opts)
   if (node.meta.isVoid) return renderVoidTag(node, opts)
-  return renderOpenTag(node, opts) + renderTree(node.content) + renderCloseTag(node, opts)
+  return renderOpenTag(node, opts) + renderTree(node.content, opts) + renderCloseTag(node, opts)
 }
 
 function renderBlock (node/*: node */, opts) /*: string */{
+  assert(opts)
   if (node.meta.isVoid) {
     return renderVoidTag(node, opts) + '\n'
   }
@@ -72,10 +79,12 @@ function renderBlock (node/*: node */, opts) /*: string */{
 }
 
 function renderGroup (node/*: node */, opts) /*: string */{
+  assert(opts)
   return node.content.map(node => renderNode(node, opts)).join('') + '\n'
 }
 
 function renderNode (node/*: node */, opts) /*: string */{
+  assert(opts)
   // Text nodes render as themselves for the most part.
   if (node.meta.isText) return renderTextNode(node, opts)
   // Handle group of inline elements
@@ -91,11 +100,13 @@ function renderNode (node/*: node */, opts) /*: string */{
 }
 
 function renderTree (tree/*: tree */, opts) /*: tree */{
+  assert(opts)
   return tree.map(node => renderNode(node, opts)).join('')
 }
 
 // TODO: Should this have an async option?
 export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText */, opts = {}) /*: string */ {
+  assert(opts)
   opts.indentString = opts.indentString || '  '
   opts.depth = opts.depth || 0
   console.log('\n\n')

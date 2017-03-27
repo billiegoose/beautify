@@ -15,20 +15,6 @@ const options = {
   },
   prettier: {
   },
-  esprima: {
-    comment: true,
-    range: true,
-    loc: true
-  },
-  escodegen: {
-    comment: true,
-    format: {
-      indent: {
-        style: '  ',
-        adjustMultilineComment: true
-      }
-    }
-  },
   render: {
   }
 }

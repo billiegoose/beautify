@@ -9,6 +9,12 @@ import beautify from '..'
 
 process.on('uncaughtException', function (err) {
   console.error(chalk.red('Error: ' + err.message))
+  console.error(err)
+  process.exit()
+})
+process.on('unhandledRejection', function (err) {
+  console.error(chalk.red('Error: ' + err.message))
+  console.error(err)
   process.exit()
 })
 

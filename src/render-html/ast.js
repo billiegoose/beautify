@@ -1,6 +1,4 @@
-import blockTags from 'block-elements'
-import inlineTags from './inline-tags'
-import voidTags from './void-tags'
+import tags from './tags'
 
 /*::
 // This is what posthtml gives us to work with.
@@ -85,9 +83,9 @@ function normalizeNode (node/*: PostHTMLNode | PostHTMLText */) /*: node */{
   result.attrs = normalizeAttrs(node.attrs)
   result.meta = {}
   // This is done intentionally to keep the JSONified representation more readable
-  if (inlineTags.includes(result.tag)) result.meta.isInline = true
-  if (blockTags.includes(result.tag)) result.meta.isBlock = true
-  if (voidTags.includes(result.tag)) result.meta.isVoid = true
+  if (tags[result.tag] && tags[result.tag].display === 'inline') result.meta.isInline = true
+  if (tags[result.tag] && tags[result.tag].display === 'block') result.meta.isBlock = true
+  if (tags[result.tag] && tags[result.tag].void) result.meta.isVoid = true
   result.content = normalizeTree(node.content)
   return result
 }
