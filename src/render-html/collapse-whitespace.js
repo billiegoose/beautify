@@ -21,6 +21,10 @@ function trimFrontNode (node/*: node */, opts) {
     let text = trimFrontText(node.content[0], opts)
     node.content[0] = text
     delete node.meta.startsWithSpace
+    if (text === '') {
+      node.meta.isInline = true
+      delete node.meta.isBlock
+    }
     return
   }
   if (node.content.length > 0) trimFrontNode(node.content[0], opts)
@@ -37,6 +41,10 @@ function trimBackNode (node/*: node */, opts) {
     let text = trimBackText(node.content[0], opts)
     node.content[0] = text
     delete node.meta.endsWithSpace
+    if (text === '') {
+      node.meta.isInline = true
+      delete node.meta.isBlock
+    }
     return
   }
   if (node.content.length > 0) trimBackNode(node.content[node.content.length - 1], opts)
@@ -63,6 +71,10 @@ function collapseWhitespaceNode (node/*: node */, opts) /*: node */ {
   if (node.meta.isText) {
     let text = collapseWhitespaceText(node.content[0], opts)
     node.content[0] = text
+    if (text === '') {
+      node.meta.isInline = true
+      delete node.meta.isBlock
+    }
     if (/^[ \t\n\r]/.test(text)) node.meta.startsWithSpace = true
     if (/[ \t\n\r]$/.test(text)) node.meta.endsWithSpace = true
     return

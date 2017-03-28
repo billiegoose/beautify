@@ -82,7 +82,9 @@ function renderBlock (node/*: node */, opts) /*: string */{
 
 function renderGroup (node/*: node */, opts) /*: string */{
   assert(opts)
-  return node.content.map(node => renderNode(node, opts)).join('') + '\n'
+  let result = node.content.map(node => renderNode(node, opts)).join('')
+  if (result === '') return result
+  return result + '\n'
 }
 
 function renderNode (node/*: node */, opts) /*: string */{
@@ -111,13 +113,13 @@ export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText 
   assert(opts)
   opts.indentString = opts.indentString || '  '
   opts.depth = opts.depth || 0
-  console.log('\n\n')
-  console.log('------ parse(thing) --------')
-  console.log(JSON.stringify(thing, null, 2))
-  // Recursively normalize the shit out of this thing.
-  console.log('------ AST.norm(thing) --------')
+  // console.log('\n\n')
+  // console.log('------ parse(thing) --------')
+  // console.log(JSON.stringify(thing, null, 2))
+  // // Recursively normalize the shit out of this thing.
+  // console.log('------ AST.norm(thing) --------')
   thing = AST.norm(thing)
-  console.log(JSON.stringify(thing, null, 2))
+  // console.log(JSON.stringify(thing, null, 2))
   console.log('------ groupInline(thing) --------')
   thing = groupInline(thing)
   console.log(JSON.stringify(thing, null, 2))

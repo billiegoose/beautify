@@ -58,7 +58,6 @@ function textNode (node) {
     },
     content: [node]
   }
-  if (node.includes('\n')) result.meta.isMultiline = true
   // This takes care of <!DOCTYPE and <!--
   if (node.startsWith('<!')) {
     result.meta.isBlock = true
