@@ -36,7 +36,9 @@ function indentBlock (text, {depth, indentString}) {
 // accepts a normalized node
 function renderOpenTag (node/*: node */, opts) /*: string */{
   assert(opts)
-  return '<' + [node.tag, ...renderAttributes(node, opts)].join(' ') + '>'
+  let attributes = renderAttributes(node, opts)
+  if (attributes === '') return `<${node.tag}>`
+  return `<${node.tag} ${attributes}>`
 }
 
 // accepts a normalized node
@@ -48,7 +50,9 @@ function renderCloseTag (node/*: node */, opts) /*: string */{
 function renderVoidTag (node/*: node */, opts) /*: string */{
   assert(opts)
   // TODO: add option for XML tag endings
-  return '<' + [node.tag, ...renderAttributes(node, opts)].join(' ') + '>'
+  let attributes = renderAttributes(node, opts)
+  if (attributes === '') return `<${node.tag}>`
+  return `<${node.tag} ${attributes}>`
 }
 
 function renderTextNode (node/*: node */, opts) /*: string */{
@@ -121,12 +125,12 @@ export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText 
   // console.log('------ AST.norm(thing) --------')
   thing = AST.norm(thing)
   // console.log(JSON.stringify(thing, null, 2))
-  console.log('------ groupInline(thing) --------')
+  // console.log('------ groupInline(thing) --------')
   thing = groupInline(thing)
-  console.log(JSON.stringify(thing, null, 2))
-  console.log('------ collapseWhitespace(thing) --------')
+  // console.log(JSON.stringify(thing, null, 2))
+  // console.log('------ collapseWhitespace(thing) --------')
   thing = collapseWhitespace(thing)
-  console.log(JSON.stringify(thing, null, 2))
+  // console.log(JSON.stringify(thing, null, 2))
   if (Array.isArray(thing)) {
     return renderTree(thing, opts)
   }
