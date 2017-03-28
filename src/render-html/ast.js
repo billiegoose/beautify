@@ -27,8 +27,9 @@ export type node = {
 
 function treeReducer (tree/*: tree */, node/*: node */) /*: tree */{
   let last = tree[tree.length - 1]
-  // Combine adjacent text nodes
-  if (last.meta.isText && node.meta.isText) {
+  // Combine adjacent inline text nodes
+  // (the block text nodes are comments, doctype, etc)
+  if (last.meta.isText && last.meta.isInline && node.meta.isText && node.meta.isInline) {
     last.content[0] = last.content[0] + node.content[0]
   } else {
     tree.push(node)
@@ -47,23 +48,10 @@ function normalizeAttrs (attrs) {
   return result
 }
 
-function doctypeNode (node) {
-  node = node.replace(/^</, '').replace(/>$/, '')
-  return {
-    tag: node,
-    attrs: {},
-    meta: {
-      isBlock: true,
-      isVoid: true
-    },
-    content: []
-  }
-}
-
 function textNode (node) {
-  if (node.startsWith('<!DOCTYPE')) {
-    return doctypeNode(node)
-  }
+  // if (node.startsWith('<!DOCTYPE')) {
+  //   return doctypeNode(node)
+  // }
   let result = {
     meta: {
       isText: true
@@ -71,6 +59,12 @@ function textNode (node) {
     content: [node]
   }
   if (node.includes('\n')) result.meta.isMultiline = true
+  // This takes care of <!DOCTYPE and <!--
+  if (node.startsWith('<!')) {
+    result.meta.isBlock = true
+  } else {
+    result.meta.isInline = true
+  }
   return result
 }
 

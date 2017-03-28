@@ -75,3 +75,17 @@ test(t => {
 </div>
 `)
 })
+
+// Format of comments
+test(t => {
+  let ast = parse(`<head><!-- This is a comment --><!-- This is a comment --><script src="jquery.js"></script></head>`)
+  let res = render(ast)
+  console.log('--------res--------')
+  console.log(res)
+  t.is(res, `<head>
+  <!-- This is a comment -->
+  <!-- This is a comment -->
+  <script src="jquery.js"></script>
+</head>
+`)
+})

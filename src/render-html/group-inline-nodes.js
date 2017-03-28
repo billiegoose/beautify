@@ -11,7 +11,6 @@ import {tree, node} from './ast'
 
 // TODO: Come back to this when your brain is working better
 function isFlowingNode (node/*: node */) /*: node */{
-  if (node.meta.isText) return true
   if (node.meta.isInline) return true
   if (node.meta.isBlock) return false
   return false

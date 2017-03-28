@@ -54,7 +54,9 @@ function renderVoidTag (node/*: node */, opts) /*: string */{
 function renderTextNode (node/*: node */, opts) /*: string */{
   assert(opts)
   assert(node.content.length === 1)
-  return node.content[0]
+  let result = node.content[0]
+  if (node.meta.isBlock) result += '\n'
+  return result
 }
 
 function renderLine (node/*: node */, opts) /*: string */{
