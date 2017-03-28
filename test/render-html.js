@@ -128,3 +128,19 @@ test(t => {
 </html>
 `)
 })
+// Format without extra newlines
+test(t => {
+  let ast = parse(`<a data-role="none" href="#termspage">Terms of Use  <i class="fa fa-pencil-square-o" ></i></a>
+                 <div class="menu_line"></div>
+                <a data-role="none"  href="#aboutpage">About  <i class="fa fa-quote-left" ></i></a>
+                 <div class="menu_line"></div>
+`)
+  let res = render(ast)
+  console.log('--------res--------')
+  console.log(res)
+  t.is(res, `<a href="#termspage" data-role="none">Terms of Use <i class="fa fa-pencil-square-o"></i></a>
+<div class="menu_line"></div>
+<a href="#aboutpage" data-role="none">About <i class="fa fa-quote-left"></i></a>
+<div class="menu_line"></div>
+`)
+})

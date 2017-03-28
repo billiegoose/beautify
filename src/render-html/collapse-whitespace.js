@@ -20,7 +20,6 @@ function trimFrontNode (node/*: node */, opts) {
   if (node.meta.isText) {
     let text = trimFrontText(node.content[0], opts)
     node.content[0] = text
-    delete node.meta.startsWithSpace
     if (text === '') {
       node.meta.isInline = true
       delete node.meta.isBlock
@@ -40,7 +39,6 @@ function trimBackNode (node/*: node */, opts) {
   if (node.meta.isText) {
     let text = trimBackText(node.content[0], opts)
     node.content[0] = text
-    delete node.meta.endsWithSpace
     if (text === '') {
       node.meta.isInline = true
       delete node.meta.isBlock
@@ -55,6 +53,18 @@ function collapseWhitespaceText (text, opts) {
   if (opts.whitespace === 'preserve') return text
   text = text.replace(/[ \t\n\r]+/gm, ' ')
   return text
+}
+
+function startsWithSpace (node, opts) {
+  if (node.meta.isText) return /^[ \t\n\r]/.test(node.content[0])
+  if (node.content.length === 0) return false
+  else return startsWithSpace(node.content[0])
+}
+
+function endsWithSpace (node, opts) {
+  if (node.meta.isText) return /[ \t\n\r]$/.test(node.content[0])
+  if (node.content.length === 0) return false
+  else return endsWithSpace(node.content[node.content.length - 1])
 }
 
 function collapseWhitespaceNode (node/*: node */, opts) /*: node */ {
@@ -75,20 +85,14 @@ function collapseWhitespaceNode (node/*: node */, opts) /*: node */ {
       node.meta.isInline = true
       delete node.meta.isBlock
     }
-    if (/^[ \t\n\r]/.test(text)) node.meta.startsWithSpace = true
-    if (/[ \t\n\r]$/.test(text)) node.meta.endsWithSpace = true
     return
   }
   if (node.content.length > 0) {
     node.content = collapseWhitespaceTree(node.content, opts)
     if (node.meta.isBlock) {
-      // Remobe space from front and rear of blocks
+      // Remove space from front and rear of blocks
       trimFrontNode(node.content[0], opts)
       trimBackNode(node.content[node.content.length - 1], opts)
-    } else {
-      // bubble up startsWithSpace and endsWithSpace
-      if (node.content[0].meta.startsWithSpace) node.meta.startsWithSpace = true
-      if (node.content[node.content.length - 1].meta.endsWithSpace) node.meta.endsWithSpace = true
     }
   }
   return node
@@ -103,7 +107,7 @@ function collapseWhitespaceTree (tree/*: tree */, opts)/*: tree */ {
   }
   // Collapse redundant whitespace between adjacent nodes
   for (let i = 1; i < tree.length; i++) {
-    if (tree[i - 1].meta.endsWithSpace && tree[i].meta.startsWithSpace) {
+    if (endsWithSpace(tree[i - 1]) && startsWithSpace(tree[i])) {
       trimFrontNode(tree[i], opts)
     }
   }

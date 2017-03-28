@@ -82,8 +82,9 @@ function renderBlock (node/*: node */, opts) /*: string */{
 
 function renderGroup (node/*: node */, opts) /*: string */{
   assert(opts)
-  let result = node.content.map(node => renderNode(node, opts)).join('')
-  if (result === '') return result
+  let newopts = Object.assign({}, opts, {innerGroupInline: true})
+  let result = node.content.map(node => renderNode(node, newopts)).join('')
+  if (result === '' || opts.innerGroupInline) return result
   return result + '\n'
 }
 
