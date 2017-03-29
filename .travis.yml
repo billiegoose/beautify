@@ -4,7 +4,6 @@ deploy:
   provider: npm
   email: wmhilton@gmail.com
   on:
-    node: node
     tags: true
     branch: master
     repo: wmhilton/beautify
