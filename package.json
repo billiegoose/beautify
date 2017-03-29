@@ -1,5 +1,5 @@
 {
-  "name": "beautify",
+  "name": "@wmhilton/beautify",
   "version": "0.0.0",
   "description": "Parses and rewrites your HTML/CSS/JS to be beautiful and readable",
   "main": "dist/index.js",
