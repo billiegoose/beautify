@@ -9,6 +9,9 @@
   "bin": {
     "beautify": "dist/bin/cli.js"
   },
+  "files": [
+    "dist"
+  ],
   "preferGlobal": true,
   "scripts": {
     "test": "ava",
