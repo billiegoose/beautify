@@ -1,17 +1,20 @@
 {
   "name": "beautify",
   "version": "0.0.0",
-  "description": "Rewrites your HTML/CSS/JS using posthtml, postcss, and standard",
-  "main": "beautify.js",
+  "description": "Parses and rewrites your HTML/CSS/JS to be beautiful and readable",
+  "main": "dist/index.js",
   "bin": {
     "beautify": "dist/bin/cli.js"
   },
+  "preferGlobal": true,
   "scripts": {
+    "test": "ava",
     "testing": "ava --watch",
     "watch": "babel src --out-dir dist --watch",
     "build": "babel src --out-dir dist",
     "lint": "standard --fix",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepublish": "npm run lint && npm run build && npm run test"
   },
   "keywords": [],
   "author": "William Hilton <wmhilton@gmail.com>",

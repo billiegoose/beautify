@@ -1,59 +1,153 @@
-<!-- TITLE/ -->
+# beautify
+Parses and rewrites your HTML/CSS/JS to be beautiful and readable
 
-<h1>beautify</h1>
+#### *How is this different from* jsbeautify, eslint, *etc?*
 
-<!-- /TITLE -->
+**beautify** goes further. It completely parses your files, transforming them into an Abstract Syntax Tree, and then renders that tree back into text. This results in cleaner looking code with fewer quirks and artifacts from the original text.
+
+**beautify** doesn't reinvent the wheel. Instead, it combines several existing excellent code formatting libraries:
+
+- [`posthtml`] and a [`custom renderer`]* for HTML
+  - `.htm`, `.html` files
+- [`postcss`] with [`perfectionist`] for CSS
+  - `.css` files
+  - `<style></style>` tags in `.html` files
+- [`prettier`] for JS
+  - `.js` files
+  - `<script type="text/javascript"></script>` tags in `.html` files
+- [`php-unparser`] for PHP *(planned feature)*
+
+*Notes on custom posthtml renderer (which I'll probably move to its own repo):
+
+- makes all `<tags>` lowercase
+- re-indents everything consistently
+- attributes
+  - formats `style`
+  - sorts (`id`, then `class`, etc)
 
 
-<!-- BADGES/ -->
+## JavaScript API
 
+**beautify** (the library) lets you pass in the options for each component so you can customize like crazy:
 
+```js
+var defaultOptions = {
+  posthtml: {
+    render: prettyrender   // a posthtml-render compatible function
+  },
+  perfectionist: {
+    indentSize: 4
+  },
+  prettier: {
+    printWidth: 1000,
+    tabWidth: 4,
+    singleQuote: true
+  },
+  render: {
+    indentString: '    ',
+    closeVoidTags: true
+  }
+}
+```
 
-<!-- /BADGES -->
+Exposed functions:
 
+```js
+// The ES6 module, async / await version
+import fs from 'mz/fs'
+import {html, style, script} from 'beautify'
 
-<!-- DESCRIPTION/ -->
+async function main () {
+  var text = await fs.readFile('index.html', 'utf8')
+  let html = await beautify.html(text, options)
+  fs.writeFile(html, 'index.html', 'utf8')
 
-Rewrites your HTML/CSS/JS using posthtml, postcss, and standard
+  var text = await fs.readFile('index.css', 'utf8')
+  let css = await style(text, options)
+  fs.writeFile(css, 'index.css', 'utf8')
+  
+  var text = await fs.readFile('index.js', 'utf8')
+  let js = await script(text, options)
+  fs.writeFile(js, 'index.js', 'utf8')
+}
+main()
+```
 
-<!-- /DESCRIPTION -->
+```js
+// The Promise version
+var fs = require('fs')
+var beautify = require('beautify')
 
+var text = fs.readFileSync('index.html', 'utf8')
+beautify.html(text, options).then(html => {
+  fs.writeFileSync(html, 'index.html', 'utf8')
+})
+
+var text = fs.readFileSync('index.css', 'utf8')
+beautify.style(text, options).then(css => {
+  fs.writeFileSync(css, 'index.css', 'utf8')
+})
+
+var text = fs.readFileSync('index.js', 'utf8')
+beautify.script(text, options).then(js => {
+  fs.writeFileSync(js, 'index.js', 'utf8')
+})
+```
 
 ## Installation
 
-Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't already.
-
-Then in the terminal, run:
-
-```sh
-npm install beautify --save
+```
+npm install beautify --global
 ```
 
-## Tests
+## Usage
 
-First clone this repository to get the source code. Then in the topmost repo
-directory run:
+#### Basic usage
 
-```sh
-npm install
-npm test
-```
+Overwrite original file:
 
-<!-- LICENSE/ -->
+    beautify input.html
 
-<h2>License</h2>
+Save beautified version under a new name:
 
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; William Hilton</li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/Unlicense.html">The Unlicense</a></li></ul>
-
-<!-- /LICENSE -->
+    beautify input.html -o output.html
 
 
-_Parts of this file are based on [package-json-to-readme](https://github.com/zeke/package-json-to-readme)_
+### Command line options
 
-_README.md (and other files) are maintained using [mos](https://github.com/mosjs/mos) and [projectz](https://github.com/bevry/projectz)_
+    -h, --help             Display this help message
+    -o, --output NAME      Output filename or directory
+    --html EXT [EXT ...]   File extensions to treat as HTML
+    --style EXT [EXT ...]  File extensions to treat as CSS
+    --script EXT [EXT ...] File extensions to treat as JS
+    --dryrun               Do a dry run (don't save changes)
+
+#### Examples
+
+Beautify all the `.html` files, save them in `output`:
+
+    beautify *.html -o output
+
+Beautify all the files in `components`, treating `.vue` files as HTML:
+
+    beautify components/* --html .vue
+
+Beautify all the `.css` and `.less` files:
+
+    beautify **/*.css **/*.less --style .less .css
+
+Beautify all the files in src, treating `.es6` as JavaScript, and save results in `lib`:
+
+    beautify src/**/* --script .es6 --output lib
+
+## License
+
+Copyright 2017 William Hilton.
+Licensed under [The Unlicense](http://unlicense.org/).
+
+[`postcss`]: http://postcss.org
+[`perfectionist`]: https://npmjs.org/package/perfectionist
+[`posthtml`]: https://github.com/posthtml/posthtml
+[`prettier`]: https://npmjs.org/package/prettier
+[`custom renderer`]: https://github.com/wmhilton/beautify/tree/master/src/render-html/index.js
+[`php-unparser`]: https://chris-l.github.io/php-unparser/

@@ -98,18 +98,12 @@ const Beautify = {
     perfectionist: {
       indentSize: 4
     },
-    stylefmt: {
-      indentWidth: 4,
-      rules: {
-        indentation: 4
-      }
-    },
     prettier: {
       printWidth: 1000,
       tabWidth: 4,
       singleQuote: true
     },
-    beautify: {
+    render: {
       indentString: '    ',
       closeVoidTags: true
     }
@@ -118,7 +112,7 @@ const Beautify = {
     let options = {}
     merge(options, Beautify.defaultOptions, userOptions)
     // I can't decide if this is elegant or awful
-    options.posthtml.render = options.posthtml.render(options.beautify)
+    options.posthtml.render = options.posthtml.render(options.render)
     let result = await posthtml([
       asyncifyTree,
       scriptTags(options),
