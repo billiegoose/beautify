@@ -106,7 +106,8 @@ const Beautify = {
     },
     prettier: {
       printWidth: 1000,
-      tabWidth: 4
+      tabWidth: 4,
+      singleQuote: true
     },
     beautify: {
       indentString: '    ',

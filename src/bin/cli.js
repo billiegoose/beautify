@@ -30,6 +30,7 @@ const optionDefinitions = [
   { name: 'script'     , type: String  , description: 'file extensions to treat as JS'        , multiple: true, defaultValue: ['.js'] },
   { name: 'dryrun'     , type: Boolean , description: 'Do a dry run' }
 ]
+const reducedOptionDefinitions = optionDefinitions.filter(opt => !opt.defaultOption)
 const usageDefinitions = [
   {
     header: 'Usage:',
@@ -49,7 +50,7 @@ const usageDefinitions = [
   },
   {
     header: 'Options:',
-    optionList: optionDefinitions
+    optionList: reducedOptionDefinitions
   }
 ]
 /* eslint-enable no-multi-spaces, comma-spacing */
@@ -66,9 +67,7 @@ async function main () {
   let files = _.uniq(ls('-ld', options.input)).filter(f => !f.isDirectory()).map(f => f.name)
   // filter out unrecognized file types
   let recognized = _.flatten([options.html, options.style, options.script])
-  console.log(recognized)
   files = files.filter(f => recognized.includes(path.extname(f)))
-  console.log(files)
 
   // Treat any path without a file extension as a directory
   var isDirectory = options.output && path.extname(options.output) === ''
@@ -93,7 +92,9 @@ async function main () {
     } else if (options.script.includes(path.extname(file))) {
       output = await beautify.script(input)
     }
-    await fs.writeFile(getOutputFilename(file), output, {encoding: 'utf8'})
+    if (!options.dryrun) {
+      await fs.writeFile(getOutputFilename(file), output, {encoding: 'utf8'})
+    }
     console.log(' ✔')
   }
 }
