@@ -29,6 +29,9 @@
   "homepage": "https://github.com/wmhilton/beautify#readme",
   "maintainers": [],
   "contributors": [],
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "chalk": "^1.1.3",
     "command-line-args": "^4.0.2",
