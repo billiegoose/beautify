@@ -51,8 +51,11 @@ function renderVoidTag (node/*: node */, opts) /*: string */{
   assert(opts)
   // TODO: add option for XML tag endings
   let attributes = renderAttributes(node, opts)
-  if (attributes === '') return `<${node.tag}>`
-  return `<${node.tag} ${attributes}>`
+  let result = '<' + node.tag
+  if (attributes !== '') result += ' ' + attributes
+  if (opts.closeVoidTags) result += ' /'
+  result += '>'
+  return result
 }
 
 function renderTextNode (node/*: node */, opts) /*: string */{
@@ -114,25 +117,27 @@ function renderTree (tree/*: tree */, opts) /*: tree */{
 }
 
 // TODO: Should this have an async option?
-export default function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText */, opts = {}) /*: string */ {
-  assert(opts)
-  opts.indentString = opts.indentString || '  '
-  opts.depth = opts.depth || 0
-  // console.log('\n\n')
-  // console.log('------ parse(thing) --------')
-  // console.log(JSON.stringify(thing, null, 2))
-  // // Recursively normalize the shit out of this thing.
-  // console.log('------ AST.norm(thing) --------')
-  thing = AST.norm(thing)
-  // console.log(JSON.stringify(thing, null, 2))
-  // console.log('------ groupInline(thing) --------')
-  thing = groupInline(thing)
-  // console.log(JSON.stringify(thing, null, 2))
-  // console.log('------ collapseWhitespace(thing) --------')
-  thing = collapseWhitespace(thing)
-  // console.log(JSON.stringify(thing, null, 2))
-  if (Array.isArray(thing)) {
-    return renderTree(thing, opts)
+export default function renderFactory (opts = {}) {
+  return function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText */) /*: string */ {
+    assert(opts)
+    opts.indentString = opts.indentString || '  '
+    opts.depth = opts.depth || 0
+    // console.log('\n\n')
+    // console.log('------ parse(thing) --------')
+    // console.log(JSON.stringify(thing, null, 2))
+    // // Recursively normalize the shit out of this thing.
+    // console.log('------ AST.norm(thing) --------')
+    thing = AST.norm(thing)
+    // console.log(JSON.stringify(thing, null, 2))
+    // console.log('------ groupInline(thing) --------')
+    thing = groupInline(thing)
+    // console.log(JSON.stringify(thing, null, 2))
+    // console.log('------ collapseWhitespace(thing) --------')
+    thing = collapseWhitespace(thing)
+    // console.log(JSON.stringify(thing, null, 2))
+    if (Array.isArray(thing)) {
+      return renderTree(thing, opts)
+    }
+    return renderNode(thing, opts)
   }
-  return renderNode(thing, opts)
 }

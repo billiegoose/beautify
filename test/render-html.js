@@ -4,7 +4,7 @@ import parse from 'posthtml-parser'
 
 test(t => {
   let ast = parse(`<!DOCTYPE html><head><title>Hello World</title><link rel="stylesheet" href="style.css"></head>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<!DOCTYPE html>
@@ -18,7 +18,7 @@ test(t => {
 // Trim the contents of block nodes
 test(t => {
   let ast = parse(`<body><div><div> Hello </div></div></body>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<body>
@@ -31,7 +31,7 @@ test(t => {
 // Trim the contents of block nodes
 test(t => {
   let ast = parse(`<body><div><p> <span>Hello </span></p></div></body>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<body>
@@ -46,7 +46,7 @@ test(t => {
 // Collapse whitespace
 test(t => {
   let ast = parse(`<div><b> Hello </b> world <i> ! </i><br></div>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<div>
@@ -58,7 +58,7 @@ test(t => {
 // Format of bulletted lists
 test(t => {
   let ast = parse(`<div class="list"><ul><li><a href="#">One</a></li><li>Two</li><li><a href="#">Three</a><ul><li><a href="#">3.1</a></li></ul></li></ul></div>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<div class="list">
@@ -79,7 +79,7 @@ test(t => {
 // Format of comments
 test(t => {
   let ast = parse(`<head><!-- This is a comment --><!-- This is a comment --><script src="jquery.js"></script></head>`)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<head>
@@ -109,7 +109,7 @@ test(t => {
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 </head>
 `)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<!DOCTYPE html>
@@ -135,7 +135,7 @@ test(t => {
                 <a data-role="none"  href="#aboutpage">About  <i class="fa fa-quote-left" ></i></a>
                  <div class="menu_line"></div>
 `)
-  let res = render(ast)
+  let res = render()(ast)
   console.log('--------res--------')
   console.log(res)
   t.is(res, `<a href="#termspage" data-role="none">Terms of Use <i class="fa fa-pencil-square-o"></i></a>
