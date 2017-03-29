@@ -54,6 +54,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "flow-bin": "^0.42.0",
     "husky": "^0.13.2",
-    "lint-staged": "^3.4.0"
+    "lint-staged": "^3.4.0",
+    "standard": "^9.0.2"
   }
 }
