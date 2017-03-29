@@ -5,11 +5,11 @@ import attributeOrder from './preferred-attribute-order'
 // we reverse the attributeOrder array so that whichever value returned by
 // indexOf is higher is prefered.
 attributeOrder.reverse() // mutates array
-/*::
+/* ::
 import type { tree, node } from './ast'
 */
 
-function renderAttribute (key, value) /*: string */{
+function renderAttribute (key, value) /* : string */{
   if (key === 'class') value = value.trim().replace(/\s\s+/g, ' ')
   if (value === '') {
     // Discard attribute if we're certain it is not a boolean attribute.
@@ -19,7 +19,7 @@ function renderAttribute (key, value) /*: string */{
   return `${key}="${value}"`
 }
 
-function compareAttributes (a /*: string */, b /*: string */) /*: number */{
+function compareAttributes (a /* : string */, b /* : string */) /* : number */{
   if (a === 'style' && b !== 'style') return 1
   if (b === 'style' && a !== 'style') return -1
   let result = attributeOrder.indexOf(b) - attributeOrder.indexOf(a)
@@ -32,7 +32,7 @@ function compareAttributes (a /*: string */, b /*: string */) /*: number */{
 }
 
 // accepts a normalized node
-export default function renderAttributes (node/*: node */, opts) /*: string[] */{
+export default function renderAttributes (node/* : node */, opts) /* : string[] */{
   let keys = Object.keys(node.attrs)
   keys.sort(compareAttributes)
   return keys.map(key => renderAttribute(key, node.attrs[key])).filter(text => text !== '').join(' ')

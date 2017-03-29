@@ -90,8 +90,8 @@ function asyncifyTree (tree) {
   return api.apiExtend(tree)
 }
 
-export default async function Process (input, userOptions) {
-  const defaultOptions = {
+const Beautify = {
+  defaultOptions: {
     posthtml: {
       render: render
     },
@@ -112,16 +112,30 @@ export default async function Process (input, userOptions) {
       indentString: '    ',
       closeVoidTags: true
     }
+  },
+  html: async function (input, userOptions) {
+    let options = {}
+    merge(options, Beautify.defaultOptions, userOptions)
+    // I can't decide if this is elegant or awful
+    options.posthtml.render = options.posthtml.render(options.beautify)
+    let result = await posthtml([
+      asyncifyTree,
+      scriptTags(options),
+      styleTags(options),
+      styleAttributes(options)
+    ]).process(input, options.posthtml)
+    return result.html
+  },
+  style: async function (input, userOptions) {
+    let options = {}
+    merge(options, Beautify.defaultOptions, userOptions)
+    return beautifyStyle(input, options)
+  },
+  script: async function (input, userOptions) {
+    let options = {}
+    merge(options, Beautify.defaultOptions, userOptions)
+    return beautifyScript(input, options)
   }
-  let options = {}
-  merge(options, defaultOptions, userOptions)
-  // I can't decide if this is elegant or awful
-  options.posthtml.render = options.posthtml.render(options.beautify)
-  let result = await posthtml([
-    asyncifyTree,
-    scriptTags(options),
-    styleTags(options),
-    styleAttributes(options)
-  ]).process(input, options.posthtml)
-  return result.html
 }
+
+export default Beautify

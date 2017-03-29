@@ -7,7 +7,7 @@ import renderAttributes from './render-attributes'
 import groupInline from './group-inline-nodes'
 import collapseWhitespace from './collapse-whitespace'
 
-/*::
+/* ::
 // This is what posthtml gives us to work with.
 import {PostHTMLTree, PostHTMLNode, PostHTMLText} from './ast'
 
@@ -34,7 +34,7 @@ function indentBlock (text, {depth, indentString}) {
 }
 
 // accepts a normalized node
-function renderOpenTag (node/*: node */, opts) /*: string */{
+function renderOpenTag (node/* : node */, opts) /* : string */{
   assert(opts)
   let attributes = renderAttributes(node, opts)
   if (attributes === '') return `<${node.tag}>`
@@ -42,12 +42,12 @@ function renderOpenTag (node/*: node */, opts) /*: string */{
 }
 
 // accepts a normalized node
-function renderCloseTag (node/*: node */, opts) /*: string */{
+function renderCloseTag (node/* : node */, opts) /* : string */{
   assert(opts)
   return '</' + node.tag + '>'
 }
 
-function renderVoidTag (node/*: node */, opts) /*: string */{
+function renderVoidTag (node/* : node */, opts) /* : string */{
   assert(opts)
   // TODO: add option for XML tag endings
   let attributes = renderAttributes(node, opts)
@@ -58,7 +58,7 @@ function renderVoidTag (node/*: node */, opts) /*: string */{
   return result
 }
 
-function renderTextNode (node/*: node */, opts) /*: string */{
+function renderTextNode (node/* : node */, opts) /* : string */{
   assert(opts)
   assert(node.content.length === 1)
   let result = node.content[0]
@@ -66,13 +66,13 @@ function renderTextNode (node/*: node */, opts) /*: string */{
   return result
 }
 
-function renderLine (node/*: node */, opts) /*: string */{
+function renderLine (node/* : node */, opts) /* : string */{
   assert(opts)
   if (node.meta.isVoid) return renderVoidTag(node, opts)
   return renderOpenTag(node, opts) + renderTree(node.content, opts) + renderCloseTag(node, opts)
 }
 
-function renderBlock (node/*: node */, opts) /*: string */{
+function renderBlock (node/* : node */, opts) /* : string */{
   assert(opts)
   if (node.meta.isVoid) {
     return renderVoidTag(node, opts) + '\n'
@@ -87,7 +87,7 @@ function renderBlock (node/*: node */, opts) /*: string */{
   }
 }
 
-function renderGroup (node/*: node */, opts) /*: string */{
+function renderGroup (node/* : node */, opts) /* : string */{
   assert(opts)
   let newopts = Object.assign({}, opts, {innerGroupInline: true})
   let result = node.content.map(node => renderNode(node, newopts)).join('')
@@ -95,7 +95,7 @@ function renderGroup (node/*: node */, opts) /*: string */{
   return result + '\n'
 }
 
-function renderNode (node/*: node */, opts) /*: string */{
+function renderNode (node/* : node */, opts) /* : string */{
   assert(opts)
   // Text nodes render as themselves for the most part.
   if (node.meta.isText) return renderTextNode(node, opts)
@@ -111,14 +111,14 @@ function renderNode (node/*: node */, opts) /*: string */{
   }
 }
 
-function renderTree (tree/*: tree */, opts) /*: tree */{
+function renderTree (tree/* : tree */, opts) /* : tree */{
   assert(opts)
   return tree.map(node => renderNode(node, opts)).join('')
 }
 
 // TODO: Should this have an async option?
 export default function renderFactory (opts = {}) {
-  return function render (thing/*: PostHTMLTree|PostHTMLNode|PostHTMLText */) /*: string */ {
+  return function render (thing/* : PostHTMLTree|PostHTMLNode|PostHTMLText */) /* : string */ {
     assert(opts)
     opts.indentString = opts.indentString || '  '
     opts.depth = opts.depth || 0

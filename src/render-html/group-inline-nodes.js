@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 
-/*::
+/* ::
 // This is what posthtml gives us to work with.
 import {PostHTMLTree, PostHTMLNode, PostHTMLText} from './ast'
 
@@ -10,13 +10,13 @@ import {tree, node} from './ast'
 */
 
 // TODO: Come back to this when your brain is working better
-function isFlowingNode (node/*: node */) /*: node */{
+function isFlowingNode (node/* : node */) /* : node */{
   if (node.meta.isInline) return true
   if (node.meta.isBlock) return false
   return false
 }
 
-function wrapInGroup (tree/*: tree */) /*: node */{
+function wrapInGroup (tree/* : tree */) /* : node */{
   return {
     tag: '',
     attrs: {},
@@ -28,14 +28,14 @@ function wrapInGroup (tree/*: tree */) /*: node */{
   }
 }
 
-function groupNode (node /*: node */) /*: node */{
+function groupNode (node /* : node */) /* : node */{
   let copy = Object.assign({}, node)
   if (node.meta.isText) return copy
   copy.content = groupTree(node.content)
   return copy
 }
 
-function groupTree (tree/*: tree */) /*: tree */{
+function groupTree (tree/* : tree */) /* : tree */{
   // start at leaves, walk upwards grouping siblings together if they are both inline to form blocks
   let content = []
   let workingGroup = []
@@ -60,7 +60,7 @@ function groupTree (tree/*: tree */) /*: tree */{
   return content
 }
 
-export default function groupInline (thing/*: node | tree */, opts) /*: node | tree */ {
+export default function groupInline (thing/* : node | tree */, opts) /* : node | tree */ {
   if (Array.isArray(thing)) {
     return groupTree(thing, opts)
   }

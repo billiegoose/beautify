@@ -1,6 +1,6 @@
 import tags from './tags'
 
-/*::
+/* ::
 // This is what posthtml gives us to work with.
 type PostHTMLText = string
 export type PostHTMLTree = Array<PostHTMLNode | PostHTMLText>
@@ -25,7 +25,7 @@ export type node = {
 }
 */
 
-function treeReducer (tree/*: tree */, node/*: node */) /*: tree */{
+function treeReducer (tree/* : tree */, node/* : node */) /* : tree */{
   let last = tree[tree.length - 1]
   // Combine adjacent inline text nodes
   // (the block text nodes are comments, doctype, etc)
@@ -67,8 +67,8 @@ function textNode (node) {
   return result
 }
 
-function normalizeNode (node/*: PostHTMLNode | PostHTMLText */) /*: node */{
-  let result/*: node */ = {}
+function normalizeNode (node/* : PostHTMLNode | PostHTMLText */) /* : node */{
+  let result/* : node */ = {}
   if (typeof node === 'string') {
     return textNode(node)
   }
@@ -83,7 +83,7 @@ function normalizeNode (node/*: PostHTMLNode | PostHTMLText */) /*: node */{
   return result
 }
 
-function normalizeTree (tree/*: PostHTMLTree */) /*: tree */{
+function normalizeTree (tree/* : PostHTMLTree */) /* : tree */{
   if (typeof tree === 'undefined') return []
   // step 1. normalize nodes
   tree = tree.map(normalizeNode)
@@ -95,7 +95,7 @@ function normalizeTree (tree/*: PostHTMLTree */) /*: tree */{
 }
 
 export default {
-  norm: function normalize (thing/*: PostHTMLTree | PostHTMLNode | PostHTMLText */) /*: tree|node */{
+  norm: function normalize (thing/* : PostHTMLTree | PostHTMLNode | PostHTMLText */) /* : tree|node */{
     if (Array.isArray(thing)) return normalizeTree(thing)
     return normalizeNode(thing)
   }
