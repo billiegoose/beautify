@@ -7,17 +7,17 @@ Parses and rewrites your HTML/CSS/JS to be beautiful and readable
 
 **beautify** doesn't reinvent the wheel. Instead, it combines several existing excellent code formatting libraries:
 
-- [`posthtml`] and a [`custom renderer`]* for HTML
+- [`posthtml`] and a [`custom renderer`]\* for HTML
   - `.htm`, `.html` files
 - [`postcss`] with [`perfectionist`] for CSS
   - `.css` files
-  - `<style></style>` tags in `.html` files
+  - inline styles in `.html` files
 - [`prettier`] for JS
   - `.js` files
-  - `<script type="text/javascript"></script>` tags in `.html` files
+  - inline scripts in `.html` files
 - [`php-unparser`] for PHP *(planned feature)*
 
-*Notes on custom posthtml renderer (which I'll probably move to its own repo):
+\*Notes on custom posthtml renderer (which I'll probably move to its own repo):
 
 - makes all `<tags>` lowercase
 - re-indents everything consistently
@@ -27,6 +27,14 @@ Parses and rewrites your HTML/CSS/JS to be beautiful and readable
 
 
 ## JavaScript API
+
+It is pretty simple. You give it text, it returns prettier text. It is async however! The options object passed to each function is the exact same format (see below), because the HTML formatter might use style and script options for inline styles and scripts.
+
+#### beautify.html(text, options) :`(string, object={}) ⇒ Promise<string>`
+#### beautify.style(text, options) :`(string, object={}) ⇒ Promise<string>`
+#### beautify.script(text, options) :`(string, object={}) ⇒ Promise<string>`
+
+### Options
 
 **beautify** (the library) lets you pass in the options for each component so you can customize like crazy:
 
@@ -50,7 +58,7 @@ var defaultOptions = {
 }
 ```
 
-Exposed functions:
+### Code Examples
 
 ```js
 // The ES6 module, async / await version
@@ -102,7 +110,9 @@ npm install beautify --global
 
 ## Usage
 
-#### Basic usage
+**beautify** (the CLI program) let you mass edit hordes of files at once.
+It accepts glob arguments, and uses file extensions to determine what
+beautifying engine to use.
 
 Overwrite original file:
 
@@ -113,16 +123,16 @@ Save beautified version under a new name:
     beautify input.html -o output.html
 
 
-### Command line options
+### CLI Options
 
-    -h, --help             Display this help message
-    -o, --output NAME      Output filename or directory
-    --html EXT [EXT ...]   File extensions to treat as HTML
-    --style EXT [EXT ...]  File extensions to treat as CSS
-    --script EXT [EXT ...] File extensions to treat as JS
-    --dryrun               Do a dry run (don't save changes)
+    -h, --help               Display this help message
+    -o, --output NAME        Output filename or directory
+    --html EXT [EXT ...]     File extensions to treat as HTML [default: .html .htm]
+    --style EXT [EXT ...]    File extensions to treat as CSS  [default: .css]
+    --script EXT [EXT ...]   File extensions to treat as JS   [default: .js]
+    --dryrun                 Do a dry run (don't save changes)
 
-#### Examples
+### Usage Examples
 
 Beautify all the `.html` files, save them in `output`:
 
