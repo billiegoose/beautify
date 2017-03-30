@@ -1,4 +1,4 @@
-# beautify
+# @wmhilton/beautify
 Parses and rewrites your HTML/CSS/JS to be beautiful and readable
 
 #### *How is this different from* jsbeautify, eslint, *etc?*
@@ -29,7 +29,7 @@ Parses and rewrites your HTML/CSS/JS to be beautiful and readable
 ## Installation
 
 ```
-npm install beautify --global
+npm install @wmhilton/beautify --global
 ```
 
 ## Usage
