@@ -53,7 +53,7 @@ function renderVoidTag (node/* : node */, opts) /* : string */{
   let attributes = renderAttributes(node, opts)
   let result = '<' + node.tag
   if (attributes !== '') result += ' ' + attributes
-  if (opts.closeVoidTags) result += ' /'
+  if (opts.closeVoidTags) result += '/'
   result += '>'
   return result
 }
