@@ -26,6 +26,54 @@ Parses and rewrites your HTML/CSS/JS to be beautiful and readable
   - sorts (`id`, then `class`, etc)
 
 
+## Installation
+
+```
+npm install beautify --global
+```
+
+## Usage
+
+**beautify** (the CLI program) let you mass edit hordes of files at once.
+It accepts glob arguments, and uses file extensions to determine what
+beautifying engine to use.
+
+Overwrite original file:
+
+    beautify input.html
+
+Save beautified version under a new name:
+
+    beautify input.html -o output.html
+
+### CLI Options
+
+    -h, --help               Display this help message
+    -o, --output NAME        Output filename or directory
+    --html EXT [EXT ...]     File extensions to treat as HTML [default: .html .htm]
+    --style EXT [EXT ...]    File extensions to treat as CSS  [default: .css]
+    --script EXT [EXT ...]   File extensions to treat as JS   [default: .js]
+    --dryrun                 Do a dry run (don't save changes)
+
+### Usage Examples
+
+Beautify all the `.html` files, save them in `output`:
+
+    beautify *.html -o output
+
+Beautify all the files in `components`, treating `.vue` files as HTML:
+
+    beautify components/* --html .vue
+
+Beautify all the `.css` and `.less` files:
+
+    beautify **/*.css **/*.less --style .less .css
+
+Beautify all the files in src, treating `.es6` as JavaScript, and save results in `lib`:
+
+    beautify src/**/* --script .es6 --output lib
+
+
 ## JavaScript API
 
 It is pretty simple. You give it text, it returns prettier text. It is async however! The options object passed to each function is the exact same format (see below), because the HTML formatter might use style and script options for inline styles and scripts.
@@ -101,54 +149,6 @@ beautify.script(text, options).then(js => {
   fs.writeFileSync(js, 'index.js', 'utf8')
 })
 ```
-
-## Installation
-
-```
-npm install beautify --global
-```
-
-## Usage
-
-**beautify** (the CLI program) let you mass edit hordes of files at once.
-It accepts glob arguments, and uses file extensions to determine what
-beautifying engine to use.
-
-Overwrite original file:
-
-    beautify input.html
-
-Save beautified version under a new name:
-
-    beautify input.html -o output.html
-
-
-### CLI Options
-
-    -h, --help               Display this help message
-    -o, --output NAME        Output filename or directory
-    --html EXT [EXT ...]     File extensions to treat as HTML [default: .html .htm]
-    --style EXT [EXT ...]    File extensions to treat as CSS  [default: .css]
-    --script EXT [EXT ...]   File extensions to treat as JS   [default: .js]
-    --dryrun                 Do a dry run (don't save changes)
-
-### Usage Examples
-
-Beautify all the `.html` files, save them in `output`:
-
-    beautify *.html -o output
-
-Beautify all the files in `components`, treating `.vue` files as HTML:
-
-    beautify components/* --html .vue
-
-Beautify all the `.css` and `.less` files:
-
-    beautify **/*.css **/*.less --style .less .css
-
-Beautify all the files in src, treating `.es6` as JavaScript, and save results in `lib`:
-
-    beautify src/**/* --script .es6 --output lib
 
 ## License
 
