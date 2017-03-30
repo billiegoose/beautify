@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Parses and rewrites your HTML/CSS/JS to be beautiful and readable",
   "main": "dist/index.js",
   "bin": {
