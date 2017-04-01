@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const PhpParser = require('php-parser')
 let parser = new PhpParser({
   ast: {
@@ -9,36 +8,44 @@ let parser = new PhpParser({
 module.exports = {
   collapsePHP: function collapsePHP (html) {
     try {
-      // Locate PHP tags in HTML. Which we ironically do by locating the 'inlineHTML' nodes in the PHP AST
-      let program = parser.parseCode(html)
-      // Reduce the parse tree down to just the start and end of the HTML nodes
-      let nodes = program.children.filter(node => node.kind === 'inline').map(node => node.loc)
-      let htmlsections = nodes.map(loc => [loc.start.offset, loc.end.offset])
-      let [htmlStarts = [], htmlEnds = []] = _.unzip(htmlsections)
-      // The PHP starts where the HTML ends, and vice versa
-      let phpStarts = htmlEnds.slice(0)
-      let phpEnds = htmlStarts.slice(0)
-      // except for the (literal) edge cases
-      phpStarts.unshift(0)
-      phpEnds.push(html.length)
-      // which we filter out if unnecessary
-      let phpsections = _.zip(phpStarts, phpEnds).filter(a => a[0] !== a[1])
-      // Now the fun bit - stiching all the sections back together
-      htmlsections = htmlsections.map(x => ({t: 'html', start: x[0], end: x[1]}))
-      phpsections = phpsections.map(x => ({t: 'php', start: x[0], end: x[1]}))
-      let allsections = [].concat(htmlsections).concat(phpsections)
-      allsections.sort((a, b) => a.start - b.start)
-
-      let result = ''
-      let map = new Map()
-      for (let section of allsections) {
-        if (section.t === 'html') {
-          result += html.slice(section.start, section.end)
-        } else if (section.t === 'php') {
-          result += `/*PHP_NODE_${section.start}_NODE_PHP*/`
-          map.set(section.start, html.slice(section.start, section.end))
+      // Separate the PHP from the HTML
+      let tokens = parser.tokenGetAll(html)
+      // Normalize bloody tokens
+      tokens = tokens.map(t => (typeof t === 'string') ? ['T_CHAR', t] : t)
+      for (let n in tokens) {
+        if (tokens[n][0] === 'T_INLINE_HTML') {
+          console.log(tokens.slice(n - 1, n + 1))
         }
       }
+      let sections = tokens.map(t => (t[0] === 'T_INLINE_HTML') ? {type: 'html', text: t[1]} : {type: 'php', text: t[1]})
+      let first = sections.shift()
+      sections = sections.reduce((A, b) => {
+        let prev = A[A.length - 1]
+        if (prev.type === b.type) {
+          prev.text += b.text
+        } else {
+          A.push(b)
+        }
+        return A
+      }, [first])
+      let offset = 0
+      sections = sections.map(n => {
+        n.offset = offset
+        offset += n.text.length
+        return n
+      })
+      console.log(offset, ' == ', html.length)
+      let result = ''
+      let map = new Map()
+      for (let section of sections) {
+        if (section.type === 'html') {
+          result += section.text
+        } else if (section.type === 'php') {
+          result += `/*PHP_NODE_${section.offset}_NODE_PHP*/`
+          map.set(section.offset, section.text)
+        }
+      }
+
       return {
         html: result,
         phpNodes: map
