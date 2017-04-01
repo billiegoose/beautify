@@ -8,13 +8,11 @@ import merge from 'lodash.merge'
 import phpTags from './php-tags'
 import renderPHP from './render-php'
 
-function beautifyPHP (text) {
+function beautifyPHP (text, options) {
   try {
-    return renderPHP(text)
+    return renderPHP(text, options)
   } catch (err) {
-    console.log(text)
-    console.log('ERROR')
-    console.log(err)
+    console.error(err.message)
     return text
   }
 }
@@ -122,6 +120,7 @@ function asyncifyTree (tree) {
 
 const Beautify = {
   defaultOptions: {
+    phpUnparser: {},
     posthtml: {
       render: render
     },
@@ -168,7 +167,7 @@ const Beautify = {
     let {html, phpNodes} = phpTags.collapsePHP(input)
     html = await Beautify.html(html, userOptions)
     for (let [key, value] of phpNodes) {
-      phpNodes.set(key, beautifyPHP(value))
+      phpNodes.set(key, beautifyPHP(value, options))
     }
     return phpTags.expandPHP({html, phpNodes})
   }
