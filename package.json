@@ -4,7 +4,7 @@
     "access": "public"
   },
   "version": "0.0.4",
-  "description": "Parses and rewrites your HTML/CSS/JS to be beautiful and readable",
+  "description": "Parses and rewrites your HTML/CSS/JS/PHP to be beautiful and readable",
   "main": "dist/index.js",
   "bin": {
     "beautify": "dist/bin/cli.js"
@@ -14,6 +14,7 @@
   ],
   "preferGlobal": true,
   "scripts": {
+    "update-readme": "update-readme -p name-and-description -p installation -p license",
     "test": "ava",
     "testing": "ava --watch",
     "watch": "babel src --out-dir dist --watch",

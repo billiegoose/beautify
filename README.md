@@ -1,5 +1,5 @@
 # @wmhilton/beautify
-Parses and rewrites your HTML/CSS/JS to be beautiful and readable
+Parses and rewrites your HTML/CSS/JS/PHP to be beautiful and readable
 
 #### *Why would I want this?*
 
@@ -176,6 +176,7 @@ beautify.script(text, options).then(js => {
 
 Copyright 2017 William Hilton.
 Licensed under [The Unlicense](http://unlicense.org/).
+##
 
 [`postcss`]: http://postcss.org
 [`perfectionist`]: https://npmjs.org/package/perfectionist
