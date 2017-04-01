@@ -5,6 +5,19 @@ import perfectionist from 'perfectionist'
 const api = require('./api-async')
 import render from './render-html'
 import merge from 'lodash.merge'
+import phpTags from './php-tags'
+import renderPHP from './render-php'
+
+function beautifyPHP (text) {
+  try {
+    return renderPHP(text)
+  } catch (err) {
+    console.log(text)
+    console.log('ERROR')
+    console.log(err)
+    return text
+  }
+}
 
 function beautifyStyleAttribute (text) {
   try {
@@ -27,11 +40,28 @@ async function beautifyStyle (text, options) {
 
 async function beautifyScript (text, options) {
   try {
+    // Unindent so comments don't grow.
+    text = text.split('\n').map(line => line.replace(/^\s+/, '')).join('\n')
     let prettierText = prettier.format(text, options.prettier)
     return prettierText
   } catch (err) {
     console.error(err.message)
     return text
+  }
+}
+
+function templateTags (options) {
+  return async function templateTags (tree) {
+    return tree.amatch([
+      { tag: 'template' },                                         // actual template tags
+      { tag: 'script', attrs: {src: false, type: /template$/} }  // template-in-script tags
+    ], async node => {
+      let origContent = node.content.map(t => t.replace(/\s\s+$/m, ' ')).join('')
+      // TODO: Figure out why it crashes if we pass in options.
+      let newContent = await Beautify.html(origContent)
+      node.content = ['\n' + newContent]
+      return node
+    })
   }
 }
 
@@ -115,6 +145,7 @@ const Beautify = {
     options.posthtml.render = options.posthtml.render(options.render)
     let result = await posthtml([
       asyncifyTree,
+      templateTags(options),
       scriptTags(options),
       styleTags(options),
       styleAttributes(options)
@@ -130,6 +161,16 @@ const Beautify = {
     let options = {}
     merge(options, Beautify.defaultOptions, userOptions)
     return beautifyScript(input, options)
+  },
+  php: async function (input, userOptions) {
+    let options = {}
+    merge(options, Beautify.defaultOptions, userOptions)
+    let {html, phpNodes} = phpTags.collapsePHP(input)
+    html = await Beautify.html(html, userOptions)
+    for (let [key, value] of phpNodes) {
+      phpNodes.set(key, beautifyPHP(value))
+    }
+    return phpTags.expandPHP({html, phpNodes})
   }
 }
 

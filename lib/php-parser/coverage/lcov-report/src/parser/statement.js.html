@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/parser/statement.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">src/parser/statement.js</span></h1>
+    <h2>
+        Statements: <span class="metric">14.97% <small>(25 / 167)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">11.76% <small>(10 / 85)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">18.18% <small>(2 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">15.24% <small>(25 / 164)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">src/parser/</a> &#187; statement.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*!
+ * Copyright (C) 2017 Glayzzle (BSD3 License)
+ * @authors https://github.com/glayzzle/php-parser/graphs/contributors
+ * @url http://glayzzle.com
+ */
+module.exports = {
+  /**
+   * reading a list of top statements (helper for top_statement*)
+   * ```ebnf
+   *  top_statements ::= top_statement*
+   * ```
+   */
+  read_top_statements: <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var result = [];</span>
+<span class="cstat-no" title="statement not covered" >    while(this.token !== this.EOF &amp;&amp; this.token !== '}') {</span>
+<span class="cstat-no" title="statement not covered" >      var statement = this.read_top_statement();</span>
+<span class="cstat-no" title="statement not covered" >      if (statement) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof statement[0] === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >          result.push(statement);</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          result = result.concat(statement);</span>
+        }
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+  }
+  /**
+   * reading a top statement
+   * ```ebnf
+   *  top_statement ::=
+   *       namespace | function | class
+   *       | interface | trait
+   *       | use_statements | const_list
+   *       | statement
+   * ```
+   */
+  ,read_top_statement: function() {
+    switch(this.token) {
+<span class="branch-0 cbranch-no" title="branch not covered" >      case this.tok.T_FUNCTION:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_function();</span>
+      // optional flags
+<span class="branch-1 cbranch-no" title="branch not covered" >      case this.tok.T_ABSTRACT:</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >      case this.tok.T_FINAL:</span>
+<span class="cstat-no" title="statement not covered" >        var flag = this.read_class_scope();</span>
+<span class="cstat-no" title="statement not covered" >        switch(this.token) {</span>
+          case this.tok.T_CLASS:
+<span class="cstat-no" title="statement not covered" >            return this.read_class(flag);</span>
+          case this.tok.T_INTERFACE:
+<span class="cstat-no" title="statement not covered" >            return this.read_interface(flag);</span>
+          default:
+<span class="cstat-no" title="statement not covered" >            var err = this.error([this.tok.T_CLASS, this.tok.T_INTERFACE]);</span>
+<span class="cstat-no" title="statement not covered" >            this.next();</span>
+<span class="cstat-no" title="statement not covered" >            return err;</span>
+        }
+<span class="branch-3 cbranch-no" title="branch not covered" >      case this.tok.T_CLASS:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_class(0);</span>
+<span class="branch-4 cbranch-no" title="branch not covered" >      case this.tok.T_INTERFACE:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_interface(0);</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >      case this.tok.T_TRAIT:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_trait();</span>
+<span class="branch-6 cbranch-no" title="branch not covered" >      case this.tok.T_USE:</span>
+<span class="cstat-no" title="statement not covered" >        var expr = this.read_use_statements();</span>
+<span class="cstat-no" title="statement not covered" >        this.expect(';').nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >        return expr;</span>
+<span class="branch-7 cbranch-no" title="branch not covered" >      case this.tok.T_CONST:</span>
+<span class="cstat-no" title="statement not covered" >        return this.next().read_const_list();</span>
+<span class="branch-8 cbranch-no" title="branch not covered" >      case this.tok.T_NAMESPACE:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_namespace();</span>
+<span class="branch-9 cbranch-no" title="branch not covered" >      case this.tok.T_HALT_COMPILER:</span>
+<span class="cstat-no" title="statement not covered" >        var result = this.node('halt');</span>
+<span class="cstat-no" title="statement not covered" >        this.next().expect('(').next().expect(')').next().expect(';');</span>
+<span class="cstat-no" title="statement not covered" >        this.lexer.done = true;</span>
+<span class="cstat-no" title="statement not covered" >        return result(this.lexer._input.substring(</span>
+          this.lexer.offset
+        ));
+      default:
+        return this.read_statement();
+    }
+  }
+  /**
+   * reads a list of simple inner statements (helper for inner_statement*)
+   * ```ebnf
+   *  inner_statements ::= inner_statement*
+   * ```
+   */
+  ,read_inner_statements: <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var result = [];</span>
+<span class="cstat-no" title="statement not covered" >    while(this.token != this.EOF &amp;&amp; this.token !== '}') {</span>
+<span class="cstat-no" title="statement not covered" >      var statement = this.read_inner_statement();</span>
+<span class="cstat-no" title="statement not covered" >      if (statement) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof statement[0] === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >          result.push(statement);</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          result = result.concat(statement);</span>
+        }
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+  }
+  /**
+   * Reads a list of constants declaration
+   * ```ebnf
+   *   const_list ::= T_CONST T_STRING '=' expr (',' T_STRING '=' expr)* ';'
+   * ```
+   */
+  ,read_const_list: <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var result = this.read_list(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >      this.expect(this.tok.T_STRING);</span>
+<span class="cstat-no" title="statement not covered" >      var result = this.node(this.text());</span>
+<span class="cstat-no" title="statement not covered" >      this.next().expect('=').next();</span>
+<span class="cstat-no" title="statement not covered" >      return result(this.read_expr());</span>
+    }, ',', false);
+<span class="cstat-no" title="statement not covered" >    this.expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >    return ['const', result];</span>
+  }
+  /**
+   * Reads a list of constants declaration
+   * ```ebnf
+   *   const_list ::= T_CONST T_STRING '=' expr (',' T_STRING '=' expr)*
+   * ```
+   */
+  ,read_declare_list: <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.read_list(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >      this.expect(this.tok.T_STRING);</span>
+<span class="cstat-no" title="statement not covered" >      var name = this.text();</span>
+<span class="cstat-no" title="statement not covered" >      this.next().expect('=').next();</span>
+<span class="cstat-no" title="statement not covered" >      return [name, this.read_expr()];</span>
+    }, ',');
+  }
+  /**
+   * reads a simple inner statement
+   * ```ebnf
+   *  inner_statement ::= '{' inner_statements '}' | token
+   * ```
+   */
+  ,read_inner_statement: <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    switch(this.token) {</span>
+      case this.tok.T_FUNCTION:
+<span class="cstat-no" title="statement not covered" >        return this.read_function();</span>
+      // optional flags
+      case this.tok.T_ABSTRACT:
+      case this.tok.T_FINAL:
+<span class="cstat-no" title="statement not covered" >        var flag = this.read_class_scope();</span>
+<span class="cstat-no" title="statement not covered" >        switch(this.token) {</span>
+          case this.tok.T_CLASS:
+<span class="cstat-no" title="statement not covered" >            return this.read_class(flag);</span>
+          case this.tok.T_INTERFACE:
+<span class="cstat-no" title="statement not covered" >            return this.read_interface(flag);</span>
+          default:
+<span class="cstat-no" title="statement not covered" >            var err = this.error([this.tok.T_CLASS, this.tok.T_INTERFACE]);</span>
+            // graceful mode : ignore token &amp; go next
+<span class="cstat-no" title="statement not covered" >            this.next();</span>
+<span class="cstat-no" title="statement not covered" >            return err;</span>
+        }
+      case this.tok.T_CLASS:
+<span class="cstat-no" title="statement not covered" >        return this.read_class(0);</span>
+      case this.tok.T_INTERFACE:
+<span class="cstat-no" title="statement not covered" >        return this.read_interface(0);</span>
+      case this.tok.T_TRAIT:
+<span class="cstat-no" title="statement not covered" >        return this.read_trait();</span>
+      case this.tok.T_HALT_COMPILER:
+<span class="cstat-no" title="statement not covered" >        this.next().expect('(').next().expect(')').next().expect(';').next();</span>
+<span class="cstat-no" title="statement not covered" >        this.raiseError('__HALT_COMPILER() can only be used from the outermost scope');</span>
+      default:
+<span class="cstat-no" title="statement not covered" >        return this.read_statement();</span>
+    }
+  }
+  /**
+   * Reads statements
+   */
+  ,read_statement: function() {
+&nbsp;
+    switch(this.token) {
+&nbsp;
+<span class="branch-0 cbranch-no" title="branch not covered" >      case '{': <span class="cstat-no" title="statement not covered" >return this.read_code_block(false);</span></span>
+&nbsp;
+<span class="branch-1 cbranch-no" title="branch not covered" >      case this.tok.T_IF: <span class="cstat-no" title="statement not covered" >return this.next().read_if();</span></span>
+&nbsp;
+<span class="branch-2 cbranch-no" title="branch not covered" >      case this.tok.T_SWITCH: <span class="cstat-no" title="statement not covered" >return this.read_switch();</span></span>
+&nbsp;
+<span class="branch-3 cbranch-no" title="branch not covered" >      case this.tok.T_FOR: <span class="cstat-no" title="statement not covered" >return this.next().read_for();</span></span>
+&nbsp;
+<span class="branch-4 cbranch-no" title="branch not covered" >      case this.tok.T_FOREACH: <span class="cstat-no" title="statement not covered" >return this.next().read_foreach();</span></span>
+&nbsp;
+<span class="branch-5 cbranch-no" title="branch not covered" >      case this.tok.T_WHILE: <span class="cstat-no" title="statement not covered" >return this.next().read_while();</span></span>
+&nbsp;
+<span class="branch-6 cbranch-no" title="branch not covered" >      case this.tok.T_DO: <span class="cstat-no" title="statement not covered" >return this.next().read_do();</span></span>
+&nbsp;
+<span class="branch-7 cbranch-no" title="branch not covered" >      case this.tok.T_COMMENT: <span class="cstat-no" title="statement not covered" >return this.read_comment();</span></span>
+&nbsp;
+<span class="branch-8 cbranch-no" title="branch not covered" >      case this.tok.T_DOC_COMMENT: <span class="cstat-no" title="statement not covered" >return this.read_doc_comment();</span></span>
+&nbsp;
+<span class="branch-9 cbranch-no" title="branch not covered" >      case this.tok.T_RETURN:</span>
+<span class="branch-10 cbranch-no" title="branch not covered" >      case this.tok.T_BREAK:</span>
+<span class="branch-11 cbranch-no" title="branch not covered" >      case this.tok.T_CONTINUE:</span>
+<span class="cstat-no" title="statement not covered" >        var mode;</span>
+<span class="cstat-no" title="statement not covered" >        switch(this.token) {</span>
+          case this.tok.T_RETURN:     <span class="cstat-no" title="statement not covered" >mode = 'return'; </span>   <span class="cstat-no" title="statement not covered" >break;</span>
+          case this.tok.T_BREAK:      <span class="cstat-no" title="statement not covered" >mode = 'break'; </span>    <span class="cstat-no" title="statement not covered" >break;</span>
+          case this.tok.T_CONTINUE:   <span class="cstat-no" title="statement not covered" >mode = 'continue'; </span> <span class="cstat-no" title="statement not covered" >break;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var expr = null;</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.next().is('EOS')) {</span>
+<span class="cstat-no" title="statement not covered" >          expr = this.read_expr();</span>
+        }
+<span class="cstat-no" title="statement not covered" >        this.expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >        return [mode, expr];</span>
+&nbsp;
+<span class="branch-12 cbranch-no" title="branch not covered" >      case this.tok.T_GLOBAL:</span>
+<span class="cstat-no" title="statement not covered" >        var items = this.next().read_list(this.read_simple_variable, ',');</span>
+<span class="cstat-no" title="statement not covered" >        this.expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >        return ['global', items];</span>
+&nbsp;
+<span class="branch-13 cbranch-no" title="branch not covered" >      case this.tok.T_STATIC:</span>
+<span class="cstat-no" title="statement not covered" >        var current = [this.token, this.lexer.getState()];</span>
+<span class="cstat-no" title="statement not covered" >        var result = this.node('static');</span>
+<span class="cstat-no" title="statement not covered" >        if (this.next().token === this.tok.T_DOUBLE_COLON) {</span>
+          // static keyword for a class
+<span class="cstat-no" title="statement not covered" >          this.lexer.tokens.push(current);</span>
+<span class="cstat-no" title="statement not covered" >          var expr = this.next().read_expr();</span>
+<span class="cstat-no" title="statement not covered" >          this.expect(';').nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >          return expr;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var items = this.read_list(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >          var name = this.expect(this.tok.T_VARIABLE).text();</span>
+<span class="cstat-no" title="statement not covered" >          var value = null;</span>
+<span class="cstat-no" title="statement not covered" >          if (this.next().token === '=') {</span>
+<span class="cstat-no" title="statement not covered" >            value = this.next().read_expr();</span>
+          }
+<span class="cstat-no" title="statement not covered" >          return [name, value];</span>
+        }, ',');
+<span class="cstat-no" title="statement not covered" >        this.expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >        return result('declare', items);</span>
+&nbsp;
+      case this.tok.T_ECHO:
+        var result = this.node('echo');
+        var withParanthesis = (this.next().token === '(');
+        withParanthesis &amp;&amp; this.next();
+        var args = this.read_list(this.read_expr, ',');
+        if (withParanthesis) {
+          this.expect(')').next();
+        }
+        this.expectEndOfStatement();
+        return result(args);
+&nbsp;
+      case this.tok.T_INLINE_HTML:
+        var result = this.node('inline')(this.text());
+        this.next();
+        return result;
+&nbsp;
+      case this.tok.T_UNSET:
+        var result = this.node('unset');
+        this.next().expect('(').next();
+        var items = this.read_list(this.read_variable, ',');
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this.expect(')').next().expect(';')) {
+          result = result(items);
+          this.nextWithComments();
+        } else {
+<span class="cstat-no" title="statement not covered" >          result = result(items);</span>
+        }
+        return  result;
+&nbsp;
+<span class="branch-17 cbranch-no" title="branch not covered" >      case this.tok.T_DECLARE:</span>
+<span class="cstat-no" title="statement not covered" >        var result = this.node('declare'), options, body;</span>
+<span class="cstat-no" title="statement not covered" >        this.next().expect('(').next();</span>
+<span class="cstat-no" title="statement not covered" >        options = this.read_declare_list();</span>
+<span class="cstat-no" title="statement not covered" >        this.expect(')').nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >        if (this.token === ':') {</span>
+<span class="cstat-no" title="statement not covered" >          body = [];</span>
+<span class="cstat-no" title="statement not covered" >          this.next();</span>
+<span class="cstat-no" title="statement not covered" >          while(this.token != this.EOF &amp;&amp; this.token !== this.tok.T_ENDDECLARE) {</span>
+<span class="cstat-no" title="statement not covered" >            body.push(this.read_statement());</span>
+          }
+<span class="cstat-no" title="statement not covered" >          this.ignoreComments().expect(this.tok.T_ENDDECLARE).next().expectEndOfStatement();</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          body = this.read_statement();</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return result(options, body);</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+&nbsp;
+<span class="branch-18 cbranch-no" title="branch not covered" >      case this.tok.T_TRY:</span>
+<span class="cstat-no" title="statement not covered" >        return this.read_try();</span>
+&nbsp;
+<span class="branch-19 cbranch-no" title="branch not covered" >      case this.tok.T_THROW:</span>
+<span class="cstat-no" title="statement not covered" >        var result = this.node('throw');</span>
+<span class="cstat-no" title="statement not covered" >        var expr = this.next().read_expr();</span>
+<span class="cstat-no" title="statement not covered" >        this.expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >        return result(expr);</span>
+&nbsp;
+<span class="branch-20 cbranch-no" title="branch not covered" >      case ';': </span>// ignore this (extra ponctuation)
+<span class="branch-21 cbranch-no" title="branch not covered" >      case this.tok.T_CLOSE_TAG: // empty tag</span>
+<span class="cstat-no" title="statement not covered" >        this.next();</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
+&nbsp;
+<span class="branch-22 cbranch-no" title="branch not covered" >      case this.tok.T_STRING:</span>
+<span class="cstat-no" title="statement not covered" >        var current = [this.token, this.lexer.getState()];</span>
+<span class="cstat-no" title="statement not covered" >        var label = this.text();</span>
+<span class="cstat-no" title="statement not covered" >        if (this.next().token === ':') {</span>
+<span class="cstat-no" title="statement not covered" >          var result = this.node('label');</span>
+<span class="cstat-no" title="statement not covered" >          this.next();</span>
+<span class="cstat-no" title="statement not covered" >          return result(label);</span>
+        } else {
+          // default fallback expr
+<span class="cstat-no" title="statement not covered" >          this.lexer.tokens.push(current);</span>
+<span class="cstat-no" title="statement not covered" >          var expr = this.next().read_expr();</span>
+<span class="cstat-no" title="statement not covered" >          this.expect([';', this.tok.T_CLOSE_TAG]).nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >          return expr;</span>
+        }
+&nbsp;
+<span class="branch-23 cbranch-no" title="branch not covered" >      case this.tok.T_GOTO:</span>
+<span class="cstat-no" title="statement not covered" >        var result = this.node('goto');</span>
+<span class="cstat-no" title="statement not covered" >        var label = this.next().expect(this.tok.T_STRING).text();</span>
+<span class="cstat-no" title="statement not covered" >        this.next().expectEndOfStatement();</span>
+<span class="cstat-no" title="statement not covered" >        return result(label);</span>
+&nbsp;
+      default: // default fallback expr
+        var expr = this.read_expr();
+        this.expectEndOfStatement();
+        return expr;
+    }
+  }
+  /**
+   * ```ebnf
+   *  code_block ::= '{' (inner_statements | top_statements) '}'
+   * ```
+   */
+  ,read_code_block: <span class="fstat-no" title="function not covered" >function(top) {</span>
+<span class="cstat-no" title="statement not covered" >    this.expect('{').nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >    var body = top ?</span>
+      this.read_top_statements()
+      : this.read_inner_statements()
+    ;
+<span class="cstat-no" title="statement not covered" >    this.expect('}').nextWithComments();</span>
+<span class="cstat-no" title="statement not covered" >    return body;</span>
+  }
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 26 2016 19:54:04 GMT+0100 (CET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

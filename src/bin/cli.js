@@ -28,6 +28,7 @@ const optionDefinitions = [
   { name: 'html'       , type: String  , description: 'file extensions to treat as HTML'      , multiple: true, defaultValue: ['.html', '.htm'] },
   { name: 'style'      , type: String  , description: 'file extensions to treat as CSS'       , multiple: true, defaultValue: ['.css'] },
   { name: 'script'     , type: String  , description: 'file extensions to treat as JS'        , multiple: true, defaultValue: ['.js'] },
+  { name: 'php'        , type: String  , description: 'file extensions to treat as PHP'       , multiple: true, defaultValue: ['.php'] },
   { name: 'dryrun'     , type: Boolean , description: 'Do a dry run' }
 ]
 const reducedOptionDefinitions = optionDefinitions.filter(opt => !opt.defaultOption)
@@ -66,7 +67,7 @@ async function main () {
   // Run each input through glob, remove duplicates, remove directories
   let files = _.uniq(ls('-ld', options.input)).filter(f => !f.isDirectory()).map(f => f.name)
   // filter out unrecognized file types
-  let recognized = _.flatten([options.html, options.style, options.script])
+  let recognized = _.flatten([options.html, options.style, options.script, options.php])
   files = files.filter(f => recognized.includes(path.extname(f)))
 
   // Treat any path without a file extension as a directory
@@ -80,17 +81,22 @@ async function main () {
     return isDirectory ? path.join(options.output, file) : options.output
   }
 
+  let getFormat = (file) => {
+    let ext = path.extname(file)
+    let formats = ['html', 'style', 'script', 'php']
+    for (let i in formats) {
+      if (options[formats[i]].includes(ext)) return formats[i]
+    }
+    return null
+  }
+
   for (let file of files) {
     process.stdout.write(`${file} -> ${getOutputFilename(file)}`, 'utf8')
     let input = await fs.readFile(file, {encoding: 'utf8'})
     let output
-    // TODO: There's got to be a nicer-lookin way to do this.
-    if (options.html.includes(path.extname(file))) {
-      output = await beautify.html(input)
-    } else if (options.style.includes(path.extname(file))) {
-      output = await beautify.style(input)
-    } else if (options.script.includes(path.extname(file))) {
-      output = await beautify.script(input)
+    let format = getFormat(file)
+    if (format) {
+      output = await beautify[format](input)
     }
     if (!options.dryrun) {
       await fs.writeFile(getOutputFilename(file), output, {encoding: 'utf8'})
