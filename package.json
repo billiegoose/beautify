@@ -21,7 +21,8 @@
     "build": "babel src --out-dir dist",
     "lint": "standard --fix",
     "precommit": "lint-staged",
-    "prepublish": "npm run lint && npm run build && npm run test"
+    "prepublish": "npm run lint && npm run build && npm run test",
+    "install": "npm run build"
   },
   "keywords": [],
   "author": "William Hilton <wmhilton@gmail.com>",
