@@ -1,9 +1,16 @@
-const parser = require('../../lib/php-parser')
-const unparser = require('../../lib/php-unparser')
+const PhpUnparser = require('php-unparser')
+const PhpParser = require('php-parser')
+let parser = new PhpParser({
+  ast: {
+    withPositions: true
+  },
+  parser: {
+    extractDoc: true
+  }
+})
 
 export default function renderPHP (text, options) {
-  let ast = parser.parseCode(text, {parser: {extractDoc: true}})
-  let code = unparser(ast, options.phpUnparser).trim()
-  let spacer = code.includes('\n') ? '\n' : ' '
-  return '<?php' + spacer + code + spacer + '?>'
+  const defaultOptions = {}
+  let ast = parser.parseCode(text)
+  return PhpUnparser(ast, options ? options.phpUnparser || defaultOptions : defaultOptions).trim()
 }
