@@ -83,6 +83,10 @@ Beautify all the files in src, treating `.es6` as JavaScript, and save results i
 
     beautify src/**/* --script .es6 --output lib
 
+Beautify all the files in src, treating `.php` and `.phtml` as PHP, and save results in `lib`:
+
+    beautify src/**/* --php .php .phtml --output lib
+
 
 ## JavaScript API
 
@@ -100,6 +104,10 @@ It is pretty simple. You give it text, it returns prettier text. It is async how
 ```js
 var defaultOptions = {
   phpUnparser: {
+    indent:  '    ', // 4 spaces indent by default
+    dontUseWhitespaces: false, // if true, adds extra white space arround parenthesis,
+    shortArray: false, // force to convert array() to []
+    forceNamespaceBrackets: false // force to use namespaces with brackets (usefull when you want to concat every php file into a single one)
   },
   posthtml: {
     render: prettyrender   // a posthtml-render compatible function
