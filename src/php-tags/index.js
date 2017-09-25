@@ -3,6 +3,9 @@ const PhpParser = require('php-parser')
 let parser = new PhpParser({
   ast: {
     withPositions: true
+  },
+  parser: {
+    extractDoc: true
   }
 })
 
